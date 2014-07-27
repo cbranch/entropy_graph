@@ -100,7 +100,6 @@ func main() {
         fmt.Printf("[0x%.8x,0x%.8x] -> %g\n", ent_blocks[i].off_from,
         ent_blocks[i].off_to,
         ent_blocks[i].entropy)
-        //fmt.Println(ent_blocks[i].block)
       } 
     }
   } else {
@@ -160,7 +159,7 @@ func graph_xy_entropy(ent_blocks []entropy_blocks) plotter.XYs {
 
 func generate_entropy_blocks(data []uint8, block_size int, brange []byte) []entropy_blocks {
 
-  n_blocks := len(data)/(block_size*2)+1;
+  n_blocks := len(data)/(block_size)+1;
   ent_blocks := make([]entropy_blocks, n_blocks)
 
   // fill entropy blocks with data as blocks
@@ -180,11 +179,10 @@ func generate_entropy_blocks(data []uint8, block_size int, brange []byte) []entr
     ent_blocks[cur_block].off_to   = to
     ent_blocks[cur_block].entropy  = H(ent_blocks[cur_block].block, brange)
 
-    from += block_size
     cur_block++;
 
     // end
-    if from >= len(data) || cur_block >= (len(data)/(block_size*2))+1 {
+    if from >= len(data) || cur_block >= (len(data)/(block_size))+1 {
       break
     }
 
